@@ -1,5 +1,6 @@
 package mk.ukim.finki.wbsproject.services
 
+import mk.ukim.finki.wbsproject.constants.SPARQLQueries.queryMovies
 import mk.ukim.finki.wbsproject.dtos.RdfDto
 import org.apache.jena.rdf.model.ModelFactory
 import org.apache.jena.vocabulary.VCARD
@@ -34,5 +35,5 @@ class RDFService(
         return list
     }
 
-    fun getQueriedData() = sparqlEndpointService.getMovies()
+    fun getQueriedData() = sparqlEndpointService.performQuery(queryMovies)
 }
