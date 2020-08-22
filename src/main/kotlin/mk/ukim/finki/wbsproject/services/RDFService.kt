@@ -1,8 +1,10 @@
 package mk.ukim.finki.wbsproject.services
 
-import mk.ukim.finki.wbsproject.constants.SPARQLQueries.queryMovies
+import mk.ukim.finki.wbsproject.constants.SPARQLQueries.queryLatestMovies
 import mk.ukim.finki.wbsproject.dtos.RdfDto
 import org.apache.jena.rdf.model.ModelFactory
+import org.apache.jena.riot.Lang
+import org.apache.jena.riot.RDFDataMgr
 import org.apache.jena.vocabulary.VCARD
 import org.springframework.stereotype.Service
 
@@ -32,8 +34,9 @@ class RDFService(
                     predicate = predicate.toString(),
                     `object` = obj.toString()))
         }
+        RDFDataMgr.write(System.out, model, Lang.RDFJSON)
         return list
     }
 
-    fun getQueriedData() = sparqlEndpointService.performQuery(queryMovies)
+    fun getQueriedData() = sparqlEndpointService.performQuery(queryLatestMovies())
 }
