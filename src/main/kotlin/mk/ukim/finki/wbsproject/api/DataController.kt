@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/data")
 class DataController(
         private val service: RDFService
 ) {
-    @GetMapping("test")
+    @GetMapping("/test")
     fun test() = service.getData()
 
     @GetMapping("/sparql")

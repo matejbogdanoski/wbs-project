@@ -34,7 +34,7 @@ class RDFService(
                     predicate = predicate.toString(),
                     `object` = obj.toString()))
         }
-        RDFDataMgr.write(System.out, model, Lang.RDFJSON)
+//        RDFDataMgr.write(System.out, model, Lang.RDFJSON)
         return list
     }
 
