@@ -1,0 +1,7 @@
+<div class='d-flex flex-wrap' *ngIf='movies'>
+  <div class='ml-3 mb-3' *ngFor='let movie of movies'>
+    <movie-card [movie]='movie'
+                (details)='onDialogOpen($event)'>
+    </movie-card>
+  </div>
+</div>

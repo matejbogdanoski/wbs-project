@@ -1,0 +1,17 @@
+<div *ngIf='movie' class='container'>
+  <div class='row'>
+    <div class='col-4'>
+      <img [src]='movie.image' class='img-fluid'>
+    </div>
+    <div class='col-8'>
+      <div class='row'>
+        <h2>{{movie.title}} <small>({{movie.year}})</small></h2>
+        <div>{{movie.abstract}}</div>
+        <button class='btn btn-warning my-3'
+                (click)='addToFavourites()'>Add to favourites!
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
