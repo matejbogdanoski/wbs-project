@@ -19,6 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FavouritesPage } from './pages/favourites/favourites.page';
 import { MoviesListComponent } from './views/movies-list/movies-list.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MoviesListComponent } from './views/movies-list/movies-list.component';
     MatButtonModule,
     MatProgressBarModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

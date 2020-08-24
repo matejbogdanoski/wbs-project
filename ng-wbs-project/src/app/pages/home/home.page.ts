@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RdfService } from '../../services/rdf.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Movie } from '../../interfaces/movie.interface';
+import { shareReplay } from 'rxjs/operators';
 
 @Component({
   templateUrl: './home.page.html',
@@ -12,6 +13,7 @@ export class HomePage implements OnInit {
   displayData: any;
   movies: Movie[];
   form: FormGroup = this.formDefinition;
+  loading: boolean = true;
 
   constructor(
     private _service: RdfService,
@@ -19,10 +21,13 @@ export class HomePage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this._service.getTestData().subscribe(data => {
-    //   this.displayData = data;
-    // });
-    this._service.getLatestMovies().subscribe(data => this.movies = data);
+    this._service.getLatestMovies()
+      .pipe(
+        shareReplay(1)
+      ).subscribe(data => {
+      this.loading = false;
+      this.movies = data;
+    });
   }
 
   get formDefinition() {

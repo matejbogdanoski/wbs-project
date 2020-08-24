@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="loading" mode="query" class='mb-2'></mat-progress-bar>
 <form (ngSubmit)='onSubmit()' [formGroup]='form' class="form-inline">
   <div class="form-group mb-2 mr-2 w-75">
     <input formControlName='searchTerm'

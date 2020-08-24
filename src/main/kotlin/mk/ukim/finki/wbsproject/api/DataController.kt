@@ -13,6 +13,6 @@ class DataController(
     @GetMapping("/test")
     fun test() = service.getData()
 
-    @GetMapping("/sparql")
+    @GetMapping("/sparql/movies")
     fun getQueriedData() = service.getQueriedData()
 }

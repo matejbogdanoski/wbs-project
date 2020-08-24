@@ -14,56 +14,56 @@ export class RdfService {
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2012-12-05',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 2',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2015-01-30',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 3',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2008-07-10',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 4',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2010-10-15',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 5',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2020-01-23',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 6',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2020-03-01',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 7',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2020-03-01',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 8',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2020-03-01',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie
   ];
 
@@ -73,28 +73,28 @@ export class RdfService {
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2015-01-30',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 4',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2010-10-15',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 5',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2020-01-23',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie,
     {
       title: 'test 7',
       abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                 + ' Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
       year: '2020-03-01',
-      image: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
+      thumbnail: 'https://complianz.io/wp-content/uploads/2019/03/placeholder-300x202.jpg'
     } as Movie
   ];
 
@@ -109,7 +109,7 @@ export class RdfService {
   }
 
   getLatestMovies(): Observable<Movie[]> {
-    return of(this.allMovies);
+    return this._http.get<Movie[]>(`${this.path}/sparql/movies`);
   }
 
   getFavouriteMovies(): Observable<Movie[]> {
