@@ -9,4 +9,8 @@
   </div>
   <button type="submit" class="btn btn-dark mb-2 btn-width">Go!</button>
 </form>
+<mat-paginator
+[length]='length'
+[pageSize]='pageSize'
+(page)="onPageChange($event)"></mat-paginator>
 <movies-list [movies]='movies'></movies-list>

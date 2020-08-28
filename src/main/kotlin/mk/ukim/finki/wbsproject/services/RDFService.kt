@@ -1,12 +1,12 @@
 package mk.ukim.finki.wbsproject.services
 
 import mk.ukim.finki.wbsproject.constants.Placeholders
+import mk.ukim.finki.wbsproject.constants.SPARQLQueries.getCount
 import mk.ukim.finki.wbsproject.constants.SPARQLQueries.queryLatestMovies
 import mk.ukim.finki.wbsproject.dtos.RdfDto
+import mk.ukim.finki.wbsproject.response.MoviePageResponse
 import mk.ukim.finki.wbsproject.response.MovieResponse
 import org.apache.jena.rdf.model.ModelFactory
-import org.apache.jena.riot.Lang
-import org.apache.jena.riot.RDFDataMgr
 import org.apache.jena.vocabulary.VCARD
 import org.springframework.stereotype.Service
 
@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service
 class RDFService(
         private val sparqlEndpointService: SPARQLEndpointService
 ) {
+
+    private val cacheCount: MutableMap<String, Int?> = HashMap()
 
     fun getData(): MutableList<RdfDto> {
         val model = ModelFactory.createDefaultModel()
@@ -40,12 +42,25 @@ class RDFService(
         return list
     }
 
-    fun getQueriedData() = sparqlEndpointService.performQuery(queryLatestMovies()).results.bindings.map {
+    fun getQueriedData(searchTerm: String, offset: Int): MoviePageResponse = MoviePageResponse(
+            movies = getMovies(searchTerm, offset),
+            length = getMoviesCount(searchTerm))
+
+    private fun getMovies(searchTerm: String, offset: Int) = sparqlEndpointService.performQuery(
+            queryLatestMovies(searchTerm, offset)).results.bindings.map {
         MovieResponse(title = it.title?.value,
                       thumbnail = it.thumbnail?.value ?: Placeholders.image,
                       abstract = it.abstract?.value?.let { abstract -> cutString(abstract, 300) },
                       year = it.year?.value)
     }
 
-    private fun cutString(it: String, maxLength: Int) = if (it.length > maxLength) it.substring(0, maxLength).plus(" ...") else it
+    private fun getMoviesCount(searchTerm: String): Int? = cacheCount[searchTerm] ?: run {
+        val count = sparqlEndpointService.performQuery(
+                getCount(searchTerm)).results.bindings[0].count?.value?.toInt()
+        cacheCount[searchTerm] = count
+        count
+    }
+
+    private fun cutString(it: String, maxLength: Int) = if (it.length > maxLength) it.substring(0, maxLength).plus(
+            " ...") else it
 }

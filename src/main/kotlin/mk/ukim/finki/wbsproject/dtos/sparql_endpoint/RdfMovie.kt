@@ -6,7 +6,8 @@ data class RdfMovie(
         val language: SparqlResource?,
         val year: SparqlResource?,
         val thumbnail: SparqlResource?,
-        val abstract: SparqlResource?
+        val abstract: SparqlResource?,
+        val count: SparqlResource?
 )
 
 data class SparqlResource(

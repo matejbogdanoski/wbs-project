@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RdfService } from '../../services/rdf.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Movie } from '../../interfaces/movie.interface';
 import { shareReplay } from 'rxjs/operators';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   templateUrl: './home.page.html',
@@ -10,10 +11,14 @@ import { shareReplay } from 'rxjs/operators';
 })
 export class HomePage implements OnInit {
 
-  displayData: any;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   movies: Movie[];
   form: FormGroup = this.formDefinition;
   loading: boolean = true;
+
+  length: number;
+  pageSize = 9;
 
   constructor(
     private _service: RdfService,
@@ -26,7 +31,8 @@ export class HomePage implements OnInit {
         shareReplay(1)
       ).subscribe(data => {
       this.loading = false;
-      this.movies = data;
+      this.movies = data.movies;
+      this.length = data.length;
     });
   }
 
@@ -37,8 +43,30 @@ export class HomePage implements OnInit {
   }
 
   onSubmit() {
-    const searchTerm = this.form.value;
-    console.log(searchTerm);
+    const searchTerm = this.form.get('searchTerm').value;
+    this.loading = true;
+    this._service.getLatestMovies(searchTerm)
+      .pipe(
+        shareReplay(1)
+      ).subscribe(data => {
+      this.paginator.pageIndex = 0;
+      this.movies = data.movies;
+      this.length = data.length;
+      this.loading = false;
+    });
+  }
+
+  onPageChange(pageEvent: PageEvent) {
+    const searchTerm = this.form.get('searchTerm').value || '';
+    this.loading = true;
+    this._service.getLatestMovies(searchTerm, pageEvent.pageIndex)
+      .pipe(
+        shareReplay(1)
+      ).subscribe(data => {
+      this.movies = data.movies;
+      this.length = data.length;
+      this.loading = false;
+    });
   }
 
 }

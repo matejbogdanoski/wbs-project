@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Movie } from '../interfaces/movie.interface';
+import { MoviePage } from '../interfaces/movie-page.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -108,8 +109,9 @@ export class RdfService {
     return this._http.get(`${this.path}/test`);
   }
 
-  getLatestMovies(): Observable<Movie[]> {
-    return this._http.get<Movie[]>(`${this.path}/sparql/movies`);
+  getLatestMovies(searchTerm: string = '', offset: number = 0): Observable<MoviePage> {
+    const params = new HttpParams().set('searchTerm', searchTerm).set('offset', offset.toString());
+    return this._http.get<MoviePage>(`${this.path}/sparql/movies`, { params });
   }
 
   getFavouriteMovies(): Observable<Movie[]> {
