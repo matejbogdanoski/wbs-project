@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Movie } from '../../interfaces/movie.interface';
-import { MovieDetailsDialog } from '../../dialogs/movie-details/movie-details.dialog';
+import { MovieDetailsDialog, MovieDetailsDialogData } from '../../dialogs/movie-details/movie-details.dialog';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -11,6 +11,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class MoviesListComponent implements OnInit {
 
   @Input() movies: Movie[];
+  @Input() showDelete: boolean;
+
+  @Output() reloadMovies = new EventEmitter<void>();
 
   constructor(
     private _dialog: MatDialog
@@ -20,6 +23,13 @@ export class MoviesListComponent implements OnInit {
   }
 
   onDialogOpen(movie: Movie) {
-    this._dialog.open(MovieDetailsDialog, { data: movie });
+    const showDelete = this.showDelete;
+    this._dialog.open(MovieDetailsDialog, { data: { movie, showDelete } as MovieDetailsDialogData })
+      .afterClosed()
+      .subscribe(it => {
+        if (it.reloadPage) {
+          this.reloadMovies.emit();
+        }
+      });
   }
 }

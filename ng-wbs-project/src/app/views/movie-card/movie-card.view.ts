@@ -20,4 +20,12 @@ export class MovieCardView implements OnInit {
     this.details.emit(this.movie);
   }
 
+  formatAbstract(abstract: string) {
+    if (abstract.length > 300) {
+      return abstract.substr(0, 300) + ' ...';
+    } else {
+      return abstract;
+    }
+  }
+
 }

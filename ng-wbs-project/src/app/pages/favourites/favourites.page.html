@@ -1,1 +1,3 @@
-<movies-list [movies]='movies'></movies-list>
+<movies-list [movies]='movies'
+             [showDelete]='true'
+             (reloadMovies)='reloadMovies()'></movies-list>

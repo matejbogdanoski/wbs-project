@@ -16,4 +16,8 @@ export class FavouritesPage implements OnInit {
     this._service.getFavouriteMovies().subscribe(data => this.movies = data);
   }
 
+  reloadMovies() {
+    this._service.getFavouriteMovies().subscribe(data => this.movies = data);
+  }
+
 }

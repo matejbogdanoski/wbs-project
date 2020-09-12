@@ -1,14 +1,21 @@
 package mk.ukim.finki.wbsproject.services
 
+import mk.ukim.finki.wbsproject.constants.FilePaths
 import mk.ukim.finki.wbsproject.constants.Placeholders
 import mk.ukim.finki.wbsproject.constants.SPARQLQueries.getCount
 import mk.ukim.finki.wbsproject.constants.SPARQLQueries.queryLatestMovies
 import mk.ukim.finki.wbsproject.dtos.RdfDto
+import mk.ukim.finki.wbsproject.request.MovieCreateRequest
 import mk.ukim.finki.wbsproject.response.MoviePageResponse
 import mk.ukim.finki.wbsproject.response.MovieResponse
+import mk.ukim.finki.wbsproject.vocabulary.DBO
 import org.apache.jena.rdf.model.ModelFactory
-import org.apache.jena.vocabulary.VCARD
+import org.apache.jena.rdf.model.Statement
+import org.apache.jena.riot.Lang
+import org.apache.jena.riot.RDFDataMgr
+import org.apache.jena.sparql.vocabulary.FOAF
 import org.springframework.stereotype.Service
+import java.io.File
 
 @Service
 class RDFService(
@@ -17,18 +24,30 @@ class RDFService(
 
     private val cacheCount: MutableMap<String, Int?> = HashMap()
 
-    fun getData(): MutableList<RdfDto> {
+    fun createFavourite(movie: MovieCreateRequest) {
         val model = ModelFactory.createDefaultModel()
-        model.createResource("http://somewhere/JohnSmith")
-                .addProperty(VCARD.FN, "Matej Bogdanoski")
-                .addProperty(VCARD.N,
-                             model.createResource()
-                                     .addProperty(VCARD.Given, "Matej")
-                                     .addProperty(VCARD.Family, "Bogdanoski"))
+        model.createResource(movie.resource)
+                .addProperty(FOAF.name, movie.title)
+                .addProperty(DBO.abstract, movie.abstract)
+                .addProperty(DBO.thumbnail, movie.thumbnail)
+                .addProperty(DBO.releaseDate, movie.year)
+
+        val file = File(FilePaths.FAVOURITES)
+        if (file.length() > 0) {
+            val input = RDFDataMgr.open(FilePaths.FAVOURITES)
+            model.read(input, null)
+        }
+
+        val outputStream = file.outputStream()
+        RDFDataMgr.write(outputStream, model, Lang.RDFXML)
+    }
+
+    fun getFavourites(): List<MovieResponse> {
+        val model = ModelFactory.createDefaultModel()
         val iter = model.listStatements()
-
         val list = mutableListOf<RdfDto>()
-
+        val input = RDFDataMgr.open(FilePaths.FAVOURITES)
+        model.read(input, null)
         while (iter.hasNext()) {
             val stmt = iter.nextStatement()
             val subject = stmt.subject
@@ -38,20 +57,42 @@ class RDFService(
                             predicate = predicate.toString(),
                             `object` = obj.toString()))
         }
-//        RDFDataMgr.write(System.out, model, Lang.RDFJSON)
-        return list
+        return mapRdfDtoToMovieResponse(list)
+    }
+
+    fun deleteFavourite(resource: String) {
+        val model = ModelFactory.createDefaultModel()
+        val iter = model.listStatements()
+        val file = File(FilePaths.FAVOURITES)
+        val input = RDFDataMgr.open(FilePaths.FAVOURITES)
+        model.read(input, null)
+
+        val toDelete = mutableListOf<Statement>()
+        while (iter.hasNext()) {
+            val stmt = iter.nextStatement()
+            val subject = stmt.subject
+            if (subject.uri == resource) {
+                toDelete.add(stmt)
+            }
+        }
+
+        toDelete.forEach { model.remove(it) }
+
+        val outputStream = file.outputStream()
+        RDFDataMgr.write(outputStream, model, Lang.RDFXML)
     }
 
     fun getQueriedData(searchTerm: String, offset: Int): MoviePageResponse = MoviePageResponse(
             movies = getMovies(searchTerm, offset),
             length = getMoviesCount(searchTerm))
 
-    private fun getMovies(searchTerm: String, offset: Int) = sparqlEndpointService.performQuery(
+    private fun getMovies(searchTerm: String, offset: Int): List<MovieResponse> = sparqlEndpointService.performQuery(
             queryLatestMovies(searchTerm, offset)).results.bindings.map {
         MovieResponse(title = it.title?.value,
                       thumbnail = it.thumbnail?.value ?: Placeholders.image,
-                      abstract = it.abstract?.value?.let { abstract -> cutString(abstract, 300) },
-                      year = it.year?.value)
+                      abstract = it.abstract?.value,
+                      year = it.year?.value,
+                      resource = it.film_title?.value)
     }
 
     private fun getMoviesCount(searchTerm: String): Int? = cacheCount[searchTerm] ?: run {
@@ -61,6 +102,12 @@ class RDFService(
         count
     }
 
-    private fun cutString(it: String, maxLength: Int) = if (it.length > maxLength) it.substring(0, maxLength).plus(
-            " ...") else it
+    private fun mapRdfDtoToMovieResponse(rdfDtos: List<RdfDto>): List<MovieResponse> = rdfDtos.groupBy { it.subject }
+            .map { group ->
+                MovieResponse(title = group.value.find { it.predicate == FOAF.name.uri }?.`object`,
+                              thumbnail = group.value.find { it.predicate == DBO.thumbnail.uri }?.`object`,
+                              abstract = group.value.find { it.predicate == DBO.abstract.uri }?.`object`,
+                              year = group.value.find { it.predicate == DBO.releaseDate.uri }?.`object`,
+                              resource = group.key)
+            }
 }

@@ -1,6 +1,6 @@
-package mk.ukim.finki.wbsproject.response
+package mk.ukim.finki.wbsproject.request
 
-data class MovieResponse(
+data class MovieCreateRequest(
         val title: String?,
         val thumbnail: String?,
         val abstract: String?,

@@ -3,4 +3,5 @@ export interface Movie {
   thumbnail: string;
   abstract: string;
   year: string;
+  resource: string;
 }

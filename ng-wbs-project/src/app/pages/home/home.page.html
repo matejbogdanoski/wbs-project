@@ -1,16 +1,17 @@
-<mat-progress-bar *ngIf="loading" mode="query" class='mb-2'></mat-progress-bar>
-<form (ngSubmit)='onSubmit()' [formGroup]='form' class="form-inline">
-  <div class="form-group mb-2 mr-2 w-75">
+<mat-progress-bar *ngIf='loading' mode='query' class='mb-2'></mat-progress-bar>
+<form (ngSubmit)='onSubmit()' [formGroup]='form' class='form-inline'>
+  <div class='form-group mb-2 mr-2 w-75'>
     <input formControlName='searchTerm'
-           type="text"
-           class="form-control w-100"
-           id="search"
-           placeholder="Search...">
+           type='text'
+           class='form-control w-100'
+           id='search'
+           placeholder='Search...'>
   </div>
-  <button type="submit" class="btn btn-dark mb-2 btn-width">Go!</button>
+  <button type='submit' class='btn btn-dark mb-2 btn-width'>Go!</button>
 </form>
 <mat-paginator
-[length]='length'
-[pageSize]='pageSize'
-(page)="onPageChange($event)"></mat-paginator>
-<movies-list [movies]='movies'></movies-list>
+  [length]='length'
+  [pageSize]='pageSize'
+  (page)='onPageChange($event)'></mat-paginator>
+<movies-list [movies]='movies'
+             [showDelete]='false'></movies-list>

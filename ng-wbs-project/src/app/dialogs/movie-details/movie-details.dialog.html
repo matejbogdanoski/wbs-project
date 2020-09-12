@@ -7,9 +7,14 @@
       <div class='row'>
         <h2>{{movie.title}} <small>({{movie.year}})</small></h2>
         <div>{{movie.abstract}}</div>
-        <button class='btn btn-warning my-3'
-                (click)='addToFavourites()'>Add to favourites!
+        <button *ngIf='!!showDelete; else add' class='btn btn-danger my-3'
+                (click)='deleteFavourite()'>Delete from favourites!
         </button>
+        <ng-template #add>
+          <button class='btn btn-warning my-3'
+                  (click)='addToFavourites()'>Add to favourites!
+          </button>
+        </ng-template>
       </div>
     </div>
   </div>
